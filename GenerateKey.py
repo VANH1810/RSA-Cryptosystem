@@ -9,7 +9,7 @@ def fast_power(a, d, n):
         d //= 2
     return result
 
-def miller_rabin(n, k=5):
+def miller_rabin(n, k=20):
     if n == 2 or n == 3:
         return True
     if n % 2 == 0:
