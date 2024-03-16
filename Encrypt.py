@@ -9,7 +9,7 @@ def fast_power(c, key_e, key_n):
 
 #Read public key from file
 plaintext = input("Enter your plaintext: ")
-file_path_puclic_key = "puclic_key.txt"
+file_path_puclic_key = "public_key.txt"
 ciphertext = ""
 
 with open(file_path_puclic_key, 'r') as file:

@@ -9,12 +9,26 @@ def fast_power(a, d, n):
         d //= 2
     return result
 
-def miller_rabin(n, k=20):
+# Pre generated primes
+first_primes_list = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
+                     31, 37, 41, 43, 47, 53, 59, 61, 67,
+                     71, 73, 79, 83, 89, 97, 101, 103,
+                     107, 109, 113, 127, 131, 137, 139,
+                     149, 151, 157, 163, 167, 173, 179,
+                     181, 191, 193, 197, 199, 211, 223,
+                     227, 229, 233, 239, 241, 251, 257,
+                     263, 269, 271, 277, 281, 283, 293,
+                     307, 311, 313, 317, 331, 337, 347, 349]
+def LowLevelPrimeCheck(n):
     if n == 2 or n == 3:
         return True
     if n % 2 == 0:
         return False
-
+    for divisor in first_primes_list:
+        if n % divisor == 0 and divisor**2 <= n:
+            return False
+    return True
+def Miller_Rabin_Prime_Check(n, k=20):
     def check(a, s, d, n):
         x = fast_power(a, d, n)
         if x == 1:
@@ -43,8 +57,9 @@ def generate_prime(bits):
         p = random.getrandbits(bits)
         if p % 2 == 0:
             p += 1
-        if miller_rabin(p):
-            return p
+        if LowLevelPrimeCheck(p):
+            if Miller_Rabin_Prime_Check(p):
+                return p
 
 def generate_pq(bits):
     p = generate_prime(bits)
@@ -80,14 +95,14 @@ def mod_inverse(e, phi_n):
 
 
 #Generate key p, q, e, n, d:
-bits_pq = 80
+bits_pq = 1024
 p, q = generate_pq(bits_pq)
 print("p:", p)
 print("q:", q)
 
 
 phi_n = (p - 1) * (q - 1)
-bits_e = 50
+bits_e = bits_pq / 2
 e = generate_e(phi_n, bits_e)
 print("e:", e)
 
@@ -97,3 +112,10 @@ print("n:", n)
 d = mod_inverse(e, phi_n)
 print("d:", d)
 
+with open("public_key.txt", 'w') as file:
+    file.write(str(e) + "\n")
+    file.write(str(n))
+
+with open("private_key.txt", 'w') as file:
+    file.write(str(d) + "\n")
+    file.write(str(n) + "\n")
