@@ -1,5 +1,5 @@
 import random
-
+import aks
 def fast_power(a, d, n):
     result = 1
     while d > 0:
@@ -54,12 +54,13 @@ def Miller_Rabin_Prime_Check(n, k=20):
 
 def generate_prime(bits):
     while True:
-        p = random.getrandbits(bits)
+        p = random.randint(2**(bits-1), 2**bits - 1)
         if p % 2 == 0:
             p += 1
         if LowLevelPrimeCheck(p):
             if Miller_Rabin_Prime_Check(p):
-                return p
+                if aks.aks(p):
+                    return p
 
 def generate_pq(bits):
     p = generate_prime(bits)
@@ -115,7 +116,9 @@ print("d:", d)
 with open("public_key.txt", 'w') as file:
     file.write(str(e) + "\n")
     file.write(str(n))
+print("Public key to", "public_key.txt")
 
 with open("private_key.txt", 'w') as file:
     file.write(str(d) + "\n")
     file.write(str(n) + "\n")
+print("Private key to", "private_key.txt")

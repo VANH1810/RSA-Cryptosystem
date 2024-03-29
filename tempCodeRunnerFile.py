@@ -1,2 +1,1 @@
-with open("ciphertext.txt", 'w') as file:
-    file.write(ciphertext)
+print("Ciphertext has been written to", "ciphertext.txt")
