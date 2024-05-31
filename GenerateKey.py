@@ -1,5 +1,5 @@
 import random
-import aks
+
 def fast_power(a, d, n):
     result = 1
     while d > 0:
@@ -28,7 +28,7 @@ def LowLevelPrimeCheck(n):
         if n % divisor == 0 and divisor**2 <= n:
             return False
     return True
-def Miller_Rabin_Prime_Check(n, k=20):
+def Miller_Rabin_Prime_Check(n, k=128):
     def check(a, s, d, n):
         x = fast_power(a, d, n)
         if x == 1:
@@ -59,8 +59,8 @@ def generate_prime(bits):
             p += 1
         if LowLevelPrimeCheck(p):
             if Miller_Rabin_Prime_Check(p):
-                if aks.aks(p):
-                    return p
+                #if aks.aks(p):
+                return p
 
 def generate_pq(bits):
     p = generate_prime(bits)
@@ -76,7 +76,7 @@ def gcd(a, b):
 
 def generate_e(phi_n, bits):
     while True:
-        e = random.randint(2**(bits-1), 2**bits - 1)
+        e = random.getrandbits(int(bits))
         if gcd(e, phi_n) == 1:
             return e
         
@@ -96,7 +96,7 @@ def mod_inverse(e, phi_n):
 
 
 #Generate key p, q, e, n, d:
-bits_pq = 1024
+bits_pq = 2048
 p, q = generate_pq(bits_pq)
 print("p:", p)
 print("q:", q)

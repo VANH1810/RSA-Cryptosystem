@@ -7,6 +7,14 @@ def fast_power(c, key_e, key_n):
         key_e //= 2
     return result
 
+def find_smallest_number(n):
+    k = 1
+    remainder = 2525 % n
+    while remainder > 0:
+        k += 1
+        remainder = (2525 * (10**k) + 25) % n
+    return int('25' + '0'*k + '25')
+
 #Read public key from file
 plaintext = input("Enter your plaintext: ")
 file_path_puclic_key = "public_key.txt"
@@ -18,13 +26,29 @@ with open(file_path_puclic_key, 'r') as file:
     key_n = int(lines[1].strip())
 
 #Encryption Algorithm
-for i in range(len(plaintext)):
-    c = ord(plaintext[i])
-    m = fast_power(c, int(key_e), int(key_n))
-    ciphertext += str(m) + " "
+block_size = 256 # size of each block
 
-#Write ciphertext to file
-with open("ciphertext.txt", 'w') as file:
-    file.write(ciphertext)
+# Convert plaintext to bytes
+plaintext_bytes = plaintext.encode()
+
+# Split plaintext into even blocks
+blocks = [plaintext_bytes[i:i+block_size] for i in range(0, len(plaintext_bytes), block_size)]
+
+# Encrypt each block
+ciphertext_blocks = []
+for block in blocks:
+    block_int = int.from_bytes(block, byteorder='big')
+    print(block_int)
+    encrypted_block = fast_power(block_int, int(key_e), int(key_n))
+    ciphertext_blocks.append(encrypted_block)
+
+ciphertext_str_blocks = [str(block) for block in ciphertext_blocks]
+
+# Join all blocks into a single string
+ciphertext_str = ' '.join(ciphertext_str_blocks)
+
+# Write the ciphertext to a file
+with open('ciphertext.txt', 'w') as f:
+    f.write(ciphertext_str)
 
 print("Ciphertext has been written to", "ciphertext.txt")
