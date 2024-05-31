@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'RSA Cryptosystem')))
 def fast_power(c, key_e, key_n):
     result = 1
     while key_e > 0:
@@ -16,9 +19,9 @@ def find_smallest_number(n):
     return int('25' + '0'*k + '25')
 
 #Read public key from file
-with open('plaintext.txt', 'r') as file:
+with open('RSA Cryptosystem/plaintext.txt', 'r') as file:
     plaintext = file.read().strip()
-file_path_puclic_key = "public_key.txt"
+file_path_puclic_key = "RSA Cryptosystem/public_key.txt"
 ciphertext = ""
 
 with open(file_path_puclic_key, 'r') as file:
@@ -49,7 +52,7 @@ ciphertext_str_blocks = [str(block) for block in ciphertext_blocks]
 ciphertext_str = ' '.join(ciphertext_str_blocks)
 
 # Write the ciphertext to a file
-with open('ciphertext.txt', 'w') as f:
+with open('RSA Cryptosystem/ciphertext.txt', 'w') as f:
     f.write(ciphertext_str)
 
 print("Ciphertext has been written to", "ciphertext.txt")

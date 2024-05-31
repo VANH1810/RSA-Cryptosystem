@@ -8,10 +8,10 @@ def fast_power(c, key_d, key_n):
     return result
 
 # Read private key and ciphertext from file
-file_path_private_key = "private_key.txt"
-file_path_ciphertext = "ciphertext.txt"
+file_path_private_key = "RSA Cryptosystem/private_key.txt"
+file_path_ciphertext = "RSA Cryptosystem/ciphertext.txt"
 block_size = 256
-with open("ciphertext.txt", 'r') as file:
+with open("RSA Cryptosystem/ciphertext.txt", 'r') as file:
     ciphertext = [int(block) for block in file.read().split()]
 
 
@@ -28,7 +28,7 @@ decrypted_bytes = b''.join(block.to_bytes(block_size, 'big') for block in decryp
 
 plaintext = decrypted_bytes.decode('utf-8')
 
-with open('Decrypted_Message.txt', 'w', encoding='utf-8') as f:
+with open('RSA Cryptosystem/Decrypted_Message.txt', 'w', encoding='utf-8') as f:
     f.write(plaintext)
 
-print("Decrypted message has been written to", "Decrypted_Message.txt")
+print("RSA Cryptosystem/Decrypted message has been written to", "Decrypted_Message.txt")
