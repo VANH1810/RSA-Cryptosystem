@@ -16,7 +16,8 @@ def find_smallest_number(n):
     return int('25' + '0'*k + '25')
 
 #Read public key from file
-plaintext = input("Enter your plaintext: ")
+with open('plaintext.txt', 'r') as file:
+    plaintext = file.read().strip()
 file_path_puclic_key = "public_key.txt"
 ciphertext = ""
 
